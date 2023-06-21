@@ -1,0 +1,27 @@
+# Loader Metadata
+modLoader = "javafml"
+loaderVersion = "${forgeVersionRange}"
+license = "MIT"
+issueTrackerURL = "${modIssueUrl}"
+
+[[mods]]
+    modId = "${modId}"
+    version = "${modVersion}"
+    displayName = "${modName}"
+    displayURL = "${modHomeUrl}"
+    authors = "${modAuthor}"
+    description = "${modDescription}"
+
+[[dependencies.${modId}]]
+    modId = "forge"
+    mandatory = true
+    versionRange = "${forgeVersionRange}"
+    ordering = "NONE"
+    side = "BOTH"
+
+[[dependencies.${modId}]]
+    modId = "minecraft"
+    mandatory = true
+    versionRange = "${minecraftVersionRange}"
+    ordering = "NONE"
+    side = "BOTH"

@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "${modId}",
+  "version": "${modVersion}",
+  "name": "${modName}",
+  "description": "${modDescription}",
+  "authors": [
+    "${modAuthor}"
+  ],
+  "contact": {
+    "homepage": "${modHomeUrl}",
+    "sources": "${modSourceUrl}",
+    "issues": "${modIssueUrl}"
+  },
+  "license": "MIT",
+  "icon": "assets/${modId}/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.alcatrazescapee.randomchunks.FabricRandomChunks"
+    ],
+    "client": []
+  },
+  "mixins": [
+    "randomchunks.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${fabricLoaderVersion}",
+    "minecraft": ">=${minecraftVersion}",
+    "java": ">=${modJavaVersion}"
+  }
+}
+  

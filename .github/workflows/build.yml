@@ -1,0 +1,73 @@
+name: Build + Publish
+
+on:
+  push:
+    tags:
+    - 'v*'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+      - uses: actions/cache@v2
+        name: Cache downloaded files
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Get Version
+        id: get_version
+        uses: actions/github-script@0.4.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          result-encoding: string
+          script: |
+            return '${{ github.ref }}'.replace('refs/tags/v', '').replace('-fabric', '');
+      - name: Build
+        run: ./gradlew build
+        env:
+          VERSION: ${{ steps.get_version.outputs.result }}
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.get_version.outputs.result }}
+          release_name: Random Chunks 1.20-${{ steps.get_version.outputs.result }}
+          body: |
+            [This was an automatic build]
+            // todo: add changelog
+          draft: true
+          prerelease: false
+      - name: Upload Forge Jar
+        id: upload_forge_jar
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./Forge/build/libs/random-chunks-forge-1.20-${{ steps.get_version.outputs.result }}.jar
+          asset_name: random-chunks-forge-1.20-${{ steps.get_version.outputs.result }}.jar
+          asset_content_type: application/java-archive
+      - name: Upload Fabric Jar
+        id: upload_fabric_jar
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./Fabric/build/libs/random-chunks-fabric-1.20-${{ steps.get_version.outputs.result }}.jar
+          asset_name: random-chunks-fabric-1.20-${{ steps.get_version.outputs.result }}.jar
+          asset_content_type: application/java-archive
