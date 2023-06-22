@@ -59,7 +59,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./Forge/build/libs/random-chunks-forge-1.20-${{ steps.get_version.outputs.result }}.jar
-          asset_name: random-chunks-forge-1.20-${{ steps.get_version.outputs.result }}.jar
+          asset_name: randomchunks-forge-1.20-${{ steps.get_version.outputs.result }}.jar
           asset_content_type: application/java-archive
       - name: Upload Fabric Jar
         id: upload_fabric_jar
@@ -69,5 +69,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./Fabric/build/libs/random-chunks-fabric-1.20-${{ steps.get_version.outputs.result }}.jar
-          asset_name: random-chunks-fabric-1.20-${{ steps.get_version.outputs.result }}.jar
+          asset_name: randomchunks-fabric-1.20-${{ steps.get_version.outputs.result }}.jar
           asset_content_type: application/java-archive
